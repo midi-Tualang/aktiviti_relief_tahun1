@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul Relief Interaktif Bahasa Melayu Tahun 1</title>
+    <style>
+        :root {
+            --primary: #5c6bc0;
+            --primary-dark: #3f51b5;
+            --secondary: #ffb74d;
+            --background: #f4f6f9;
+            --card-bg: #ffffff;
+            --text-main: #2c3e50;
+            --text-muted: #7f8c8d;
+            --success: #2ecc71;
+            --error: #e74c3c;
+            --border-radius: 16px;
+            --shadow: 0 8px 24px rgba(0,0,0,0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            padding: 30px;
+            border-radius: var(--border-radius);
+            color: white;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 25px;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            height: fit-content;
+        }
+
+        .sidebar h2 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .story-menu {
+            list-style: none;
+        }
+
+        .story-menu li {
+            padding: 14px 18px;
+            margin-bottom: 10px;
+            background: #f8fafc;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            border: 2px solid transparent;
+        }
+
+        .story-menu li:hover {
+            background: #edf2f7;
+            transform: translateY(-2px);
+        }
+
+        .story-menu li.active {
+            background: #e0e7ff;
+            color: var(--primary-dark);
+            border-color: var(--primary);
+        }
+
+        .story-menu .icon {
+            font-size: 20px;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            background: var(--card-bg);
+            padding: 35px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            min-height: 500px;
+        }
+
+        /* Total Score Widget */
+        .score-badge {
+            background: var(--secondary);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            box-shadow: 0 4px 12px rgba(255, 183, 77, 0.4);
+            margin-top: 10px;
+        }
+
+        /* Story View Details */
+        .story-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 15px;
+        }
+
+        .story-header .main-icon {
+            font-size: 40px;
+            background: #f0f4f8;
+            padding: 10px;
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .story-header h2 {
+            font-size: 22px;
+            color: var(--text-main);
+        }
+
+        .story-body {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #34495e;
+            background: #fcfcfc;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid var(--primary);
+            margin-bottom: 25px;
+            text-align: justify;
+        }
+
+        .audio-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 30px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(92, 107, 192, 0.3);
+        }
+
+        .audio-btn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.03);
+        }
+
+        /* Quiz Box Styling */
+        .quiz-section {
+            margin-top: 40px;
+        }
+
+        .quiz-section h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .question-card {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .question-text {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-main);
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-btn {
+            background: white;
+            border: 2px solid #e2e8f0;
+            padding: 12px 20px;
+            font-size: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .option-btn:hover:not(.disabled) {
+            border-color: var(--primary);
+            background: #f0f4f8;
+        }
+
+        /* Dynamic Feedback Classes */
+        .option-btn.correct {
+            background: #d4edda !important;
+            border-color: var(--success) !important;
+            color: #155724 !important;
+            font-weight: bold;
+        }
+
+        .option-btn.incorrect {
+            background: #f8d7da !important;
+            border-color: var(--error) !important;
+            color: #721c24 !important;
+        }
+
+        .option-btn.disabled {
+            cursor: not-allowed;
+        }
+
+        .attempt-indicator {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        .status-icon {
+            font-weight: bold;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>📖 Modul Relief Interaktif Bahasa Melayu (Tahun 1)</h1>
+        <p>Sesi pembelajaran kendiri & didik hibur yang menyeronokkan untuk menguji kefahaman membaca murid.</p>
+        <div class="score-badge">
+            🌟 Jumlah Markah Saya: <span id="total-score">0</span> / 25
+        </div>
+    </header>
+
+    <div class="dashboard">
+        <!-- Sidebar Selection Menu -->
+        <div class="sidebar">
+            <h2>Pilih Cerita</h2>
+            <ul class="story-menu" id="story-list">
+                <!-- Will be dynamically injected -->
+            </ul>
+        </div>
+
+        <!-- Main Interaction Stage -->
+        <div class="main-content" id="main-stage">
+            <!-- Content will be dynamically rendered via JavaScript -->
+        </div>
+    </div>
+</div>
+
+<script>
+    // Audio Context Synthesis for Premium native sound effects without external files
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    function playCorrectSound() {
+        const now = audioCtx.currentTime;
+        const notes = [261.63, 329.63, 392.00, 523.25]; // C4, E4, G4, C5 Arpeggio
+        notes.forEach((freq, index) => {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.frequency.value = freq;
+            osc.type = 'sine';
+            gain.gain.setValueAtTime(0.15, now + index * 0.08);
+            gain.gain.exponentialRampToValueAtTime(0.01, now + index * 0.08 + 0.12);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(now + index * 0.08);
+            osc.stop(now + index * 0.08 + 0.12);
+        });
+    }
+
+    function playWrongSound() {
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.frequency.setValueAtTime(140, now);
+        osc.frequency.linearRampToValueAtTime(90, now + 0.25);
+        osc.type = 'sawtooth';
+        gain.gain.setValueAtTime(0.15, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.25);
+    }
+
+    // Comprehensive Stories Data Database
+    const stories = [
+        {
+            id: 1,
+            title: "Si Comel dan Rama-Rama",
+            icon: "🐱",
+            text: "Si Comel seekor anak kucing putih yang sangat comel dan gebu. Dia suka bermain di taman bunga yang luas. Suatu pagi, seekor rama-rama berwarna-warni terbang di hadapannya. Comel berasa teruja lalu mengejar rama-rama itu melompat ke sana kemari. Tiba-tiba, rama-rama itu hinggap di atas sekuntum bunga merah yang sangat wangi. Comel menghidu bunga itu lalu terbersin dengan kuat. Rama-rama terbang tinggi sambil menari di udara. Comel berasa gembira lalu pulang ke rumah untuk minum susu segar bersama ibunya.",
+            questions: [
+                { q: "Apakah warna bulu Si Comel?", options: ["Hitam", "Putih", "Kuning"], correct: 1 },
+                { q: "Di manakah Si Comel suka bermain?", options: ["Taman bunga", "Dalam longkang", "Atas bumbung"], correct: 0 },
+                { q: "Apakah haiwan yang dikejar oleh Si Comel?", options: ["Burung", "Katak", "Rama-rama"], correct: 2 },
+                { q: "Mengapakah Si Comel tiba-tiba terbersin?", options: ["Terkena air", "Terkena debunga harum", "Terkena angin kuat"], correct: 1 },
+                { q: "Apakah makanan/minuman yang diambil selepas pulang?", options: ["Air kosong", "Susu segar", "Air jus"], correct: 1 }
+            ]
+        },
+        {
+            id: 2,
+            title: "Sang Kancil dan Buah Rambutan",
+            icon: "🦌",
+            text: "Sang Kancil berjalan di tepi sungai yang jernih airnya. Dia ternampak sebatang pokok rambutan yang sedang berbuah lebat di seberang sungai. Buah rambutan itu berwarna merah tua dan kelihatan sangat manis. Sang Kancil mahu menyeberang sungai tetapi ada banyak buaya yang lapar. Dia mendapat satu idea yang bijak. Sang Kancil menyuruh buaya beratur untuk dikira. Dengan tangkas, Kancil melompat di atas belakang buaya sehingga sampai ke seberang. Kancil gembira dapat makan rambutan yang sedap itu.",
+            questions: [
+                { q: "Sang Kancil berjalan di tepi apa?", options: ["Laut yang luas", "Sungai yang jernih", "Gunung tinggi"], correct: 1 },
+                { q: "Apakah buah yang sedang lebat di seberang?", options: ["Rambutan", "Durian", "Betik"], correct: 0 },
+                { q: "Apakah warna buah rambutan yang masak itu?", options: ["Hijau muda", "Kuning cerah", "Merah tua"], correct: 2 },
+                { q: "Haiwan apakah yang menghalang laluan sungai?", options: ["Ikan besar", "Buaya lapar", "Katak bising"], correct: 1 },
+                { q: "Bagaimanakah cara Sang Kancil menyeberang?", options: ["Berenang laju", "Melompat atas belakang buaya", "Naik perahu kayu"], correct: 1 }
+            ]
+        },
+        {
+            id: 3,
+            title: "Robot Bobo yang Rajin",
+            icon: "🤖",
+            text: "Di sebuah bilik mainan, ada seekor robot kecil bernama Bobo. Bobo berwarna biru dan mempunyai lampu kuning di kepalanya. Setiap malam, selepas Taufiq tidur, Bobo akan bangun bekerja. Bobo akan mengutip semua pensel warna yang bersepah di atas lantai. Dia menyusun mainan blok ke dalam kotak dengan rapi. Selepas bilik menjadi bersih, lampu di kepala Bobo akan berkelip-kelip gembira. Bobo berehat semula di atas meja sambil tersenyum menanti pagi esok.",
+            questions: [
+                { q: "Apakah nama robot kecil yang rajin itu?", options: ["Bobo", "Bibi", "Baba"], correct: 0 },
+                { q: "Bilakah robot Bobo mula aktif bekerja?", options: ["Waktu siang", "Setiap malam", "Waktu petang"], correct: 1 },
+                { q: "Apakah barang bersepah yang dikutip oleh Bobo?", options: ["Bola mainan", "Pensel warna", "Kereta mainan"], correct: 1 },
+                { q: "Di manakah Bobo menyusun blok mainan?", options: ["Atas katil", "Dalam kotak", "Bawah meja"], correct: 1 },
+                { q: "Apakah warna lampu kepala Bobo yang berkelip gembira?", options: ["Merah", "Biru", "Kuning"], correct: 2 }
+            ]
+        },
+        {
+            id: 4,
+            title: "Burung Pipit dan Sang Semut",
+            icon: "🐦",
+            text: "Seekor semut kecil terjatuh ke dalam sungai yang mengalir deras. Semut menjerit meminta tolong kerana tidak pandai berenang. Kebetulan, seekor burung pipit sedang berehat di ranting pokok. Pipit berasa kasihan lalu memetik sehelai daun hijau dan menjatuhkannya ke dalam air. Semut segera memanjat daun itu dengan selamat sehingga ke tebing sungai. Semut mengucapkan terima kasih kepada burung pipit yang baik hati. Mereka menjadi sahabat baik dan saling membantu sejak hari itu.",
+            questions: [
+                { q: "Haiwan kecil apakah yang terjatuh ke dalam sungai?", options: ["Semut", "Ulat bulu", "Belalang"], correct: 0 },
+                { q: "Mengapakah semut itu menjerit meminta tolong?", options: ["Dia kesejukan", "Tidak pandai berenang", "Takut buaya"], correct: 1 },
+                { q: "Apakah haiwan yang menyelamatkan semut?", options: ["Kucing jinak", "Burung pipit", "Ayam hutan"], correct: 1 },
+                { q: "Apakah objek yang dijatuhkan untuk menolong semut?", options: ["Ranting kayu", "Sehelai daun hijau", "Tali panjang"], correct: 1 },
+                { q: "Apakah status hubungan mereka di akhir cerita?", options: ["Menjadi sahabat baik", "Menjadi musuh", "Tidak kenal lagi"], correct: 0 }
+            ]
+        },
+        {
+            id: 5,
+            title: "Angkasawan Muda ke Bulan",
+            icon: "🚀",
+            text: "Amir memakai baju angkasawan yang berwarna putih bersih. Dia masuk ke dalam roket besarnya yang berwarna perak. Roket itu terbang laju ke angkasa lepas dengan bunyi yang sangat kuat. Amir dapat melihat planet bumi yang bulat dan berwarna biru dari tingkap roket. Apabila sampai di bulan, Amir melompat-lompat kerana badannya menjadi sangat ringan seperti kapas. Amir memacak bendera Malaysia di atas permukaan bulan sambil tersenyum bangga sebelum pulang semula ke bumi.",
+            questions: [
+                { q: "Apakah warna baju angkasawan Amir?", options: ["Merah", "Putih bersih", "Biru muda"], correct: 1 },
+                { q: "Amir naik ke angkasa lepas menggunakan kenderaan apa?", options: ["Kapal terbang", "Roket besar", "Helikopter"], correct: 1 },
+                { q: "Apakah warna planet bumi dari tingkap kenderaannya?", options: ["Hijau", "Kuning", "Biru"], correct: 2 },
+                { q: "Mengapakah Amir boleh melompat-lompat di bulan?", options: ["Badan menjadi ringan", "Dia berasa takut", "Lantai bulan sejuk"], correct: 0 },
+                { q: "Apakah bendera yang dipacak oleh Amir di permukaan bulan?", options: ["Bendera sekolah", "Bendera Malaysia", "Bendera negeri"], correct: 1 }
+            ]
+        }
+    ];
+
+    // State trackers
+    let currentStoryIndex = 0;
+    let quizState = {}; // Structure: { "storyId-questionId": { attempts: 0, scored: false, completed: false } }
+
+    // Initialize Application
+    function init() {
+        renderSidebar();
+        renderActiveStory();
+        updateGlobalScore();
+    }
+
+    function renderSidebar() {
+        const sidebarContainer = document.getElementById('story-list');
+        sidebarContainer.innerHTML = '';
+        stories.forEach((story, idx) => {
+            const li = document.createElement('li');
+            li.className = idx === currentStoryIndex ? 'active' : '';
+            li.onclick = () => {
+                currentStoryIndex = idx;
+                renderSidebar();
+                renderActiveStory();
+            };
+            li.innerHTML = `<span class="icon">${story.icon}</span> <span>${story.title}</span>`;
+            sidebarContainer.appendChild(li);
+        });
+    }
+
+    function renderActiveStory() {
+        const stage = document.getElementById('main-stage');
+        const story = stories[currentStoryIndex];
+
+        let html = `
+            <div class="story-header">
+                <div class="main-icon">${story.icon}</div>
+                <div>
+                    <h2>${story.title}</h2>
+                </div>
+            </div>
+            <div class="story-body" id="story-text-container">
+                ${story.text}
+            </div>
+            <button class="audio-btn" onclick="readAloud()"><span style="font-size:18px;">🔊</span> Dengar Cerita (Suara Jelas)</button>
+            
+            <div class="quiz-section">
+                <h3>📝 Jom Jawab Soalan Pemahaman!</h3>
+        `;
+
+        story.questions.forEach((qData, qIdx) => {
+            const key = `${story.id}-${qIdx}`;
+            if (!quizState[key]) {
+                quizState[key] = { attempts: 0, scored: false, completed: false, selectedOptions: {} };
+            }
+            const state = quizState[key];
+
+            html += `
+                <div class="question-card">
+                    <div class="question-text">Soalan ${qIdx + 1}: ${qData.q}</div>
+                    <div class="options-container">
+            `;
+
+            qData.options.forEach((opt, optIdx) => {
+                let optClass = '';
+                let statusSymbol = '';
+                
+                if (state.selectedOptions[optIdx] !== undefined) {
+                    if (optIdx === qData.correct) {
+                        optClass = 'correct disabled';
+                        statusSymbol = ' 🟢 Betul!';
+                    } else {
+                        optClass = 'incorrect disabled';
+                        statusSymbol = ' 🔴 Salah';
+                    }
+                } else if (state.completed) {
+                    optClass = 'disabled';
+                }
+
+                html += `
+                    <button class="option-btn ${optClass}" onclick="handleAnswer(${story.id}, ${qIdx}, ${optIdx}, ${qData.correct}, this)">
+                        <span>${String.fromCharCode(65 + optIdx)}. ${opt}</span>
+                        <span class="status-icon">${statusSymbol}</span>
+                    </button>
+                `;
+            });
+
+            html += `
+                    </div>
+                    <div class="attempt-indicator">Bilangan cubaan menjawab soalan ini: <strong>${state.attempts}</strong></div>
+                </div>
+            `;
+        });
+
+        html += `</div>`;
+        stage.innerHTML = html;
+    }
+
+    function handleAnswer(storyId, qIdx, selectedOpt, correctOpt, element) {
+        const key = `${storyId}-${qIdx}`;
+        const state = quizState[key];
+
+        if (state.completed || state.selectedOptions[selectedOpt] !== undefined) return;
+
+        state.attempts += 1;
+        state.selectedOptions[selectedOpt] = selectedOpt;
+
+        if (selectedOpt === correctOpt) {
+            state.completed = true;
+            playCorrectSound();
+            
+            // Mark is given only if achieved within 2 attempts
+            if (state.attempts <= 2) {
+                state.scored = true;
+            }
+            
+            updateGlobalScore();
+            renderActiveStory();
+        } else {
+            playWrongSound();
+            renderActiveStory();
+        }
+    }
+
+    function updateGlobalScore() {
+        let total = 0;
+        for (let key in quizState) {
+            if (quizState[key].scored) {
+                total += 1;
+            }
+        }
+        document.getElementById('total-score').innerText = total;
+    }
+
+    function readAloud() {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel(); // Stop ongoing voice tracks
+            const text = stories[currentStoryIndex].text;
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ms-MY';
+            utterance.rate = 0.85; // Optimal clarity speed for Year 1 kids
+            window.speechSynthesis.speak(utterance);
+        } else {
+            alert("Maaf, fungsi suara tidak disokong pada pelayar internet ini.");
+        }
+    }
+
+    // Run app initialization on window load
+    window.onload = init;
+</script>
+
+</body>
+</html>
